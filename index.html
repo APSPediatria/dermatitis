@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dermatitis del Pañal — Guía Educativa</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,700;0,900;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --coral: #FF5C45;
+    --teal: #00C5A1;
+    --navy: #0D1B35;
+    --cream: #FFF8F0;
+    --peach: #FFD4C2;
+    --mint: #C8F5ED;
+    --yellow: #FFE566;
+    --purple: #6B4EFF;
+    --text: #1A1A2E;
+    --mid: #5A5A7A;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    background: var(--navy);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(0,197,161,0.25) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 80%, rgba(255,92,69,0.2) 0%, transparent 50%);
+  }
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px 80px 80px;
+    position: relative;
+    z-index: 2;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,229,102,0.15);
+    border: 1px solid rgba(255,229,102,0.4);
+    color: var(--yellow);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border-radius: 100px;
+    width: fit-content;
+    margin-bottom: 28px;
+    animation: fadeDown 0.8s ease both;
+  }
+  .badge::before { content: '⬤'; font-size: 0.5rem; }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(3rem, 5vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.0;
+    color: #fff;
+    animation: fadeDown 0.9s ease 0.1s both;
+  }
+  .hero h1 span { color: var(--teal); display: block; font-style: italic; font-weight: 300; }
+  .hero-desc {
+    margin-top: 24px;
+    font-size: 1.05rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.7;
+    max-width: 480px;
+    animation: fadeDown 1s ease 0.2s both;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    margin-top: 48px;
+    animation: fadeDown 1s ease 0.35s both;
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--teal);
+  }
+  .stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.08em; }
+  .hero-right {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+    z-index: 2;
+  }
+  .hero-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 40px;
+    max-width: 420px;
+    animation: fadeLeft 1s ease 0.4s both;
+  }
+  .hero-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 10px; }
+  .tag {
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  .tag-coral { background: rgba(255,92,69,0.2); color: #FF8A78; border: 1px solid rgba(255,92,69,0.3); }
+  .tag-teal { background: rgba(0,197,161,0.15); color: var(--teal); border: 1px solid rgba(0,197,161,0.3); }
+  .tag-yellow { background: rgba(255,229,102,0.15); color: var(--yellow); border: 1px solid rgba(255,229,102,0.3); }
+  .tag-purple { background: rgba(107,78,255,0.2); color: #A593FF; border: 1px solid rgba(107,78,255,0.3); }
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255,255,255,0.35);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    animation: bounce 2s infinite;
+    z-index: 3;
+  }
+  .scroll-hint svg { width: 20px; opacity: 0.4; }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    background: rgba(13,27,53,0.95);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    z-index: 100;
+    padding: 0 60px;
+  }
+  .nav-inner {
+    display: flex;
+    gap: 0;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .nav-inner a {
+    padding: 18px 20px;
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+  }
+  .nav-inner a:hover { color: var(--teal); border-bottom-color: var(--teal); }
+
+  /* SECTIONS */
+  section { padding: 100px 80px; max-width: 1300px; margin: 0 auto; }
+  .section-label {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--coral);
+    background: rgba(255,92,69,0.08);
+    padding: 6px 14px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--navy);
+    margin-bottom: 16px;
+  }
+  .section-title em { font-style: italic; color: var(--coral); font-weight: 300; }
+  .section-intro {
+    font-size: 1.05rem;
+    color: var(--mid);
+    line-height: 1.75;
+    max-width: 680px;
+    margin-bottom: 60px;
+  }
+
+  /* INTRO BLOCK */
+  .intro-section { background: var(--cream); }
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .intro-text p { color: var(--mid); line-height: 1.8; font-size: 1rem; margin-bottom: 20px; }
+
+  /* ETIOLOGY CARDS */
+  .etio-section { background: var(--navy); color: #fff; }
+  .etio-section .section-label { color: var(--yellow); background: rgba(255,229,102,0.1); }
+  .etio-section .section-title { color: #fff; }
+  .etio-section .section-title em { color: var(--teal); }
+  .etio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .etio-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 32px;
+    transition: transform 0.3s, background 0.3s;
+  }
+  .etio-card:hover { transform: translateY(-6px); background: rgba(255,255,255,0.09); }
+  .etio-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  .etio-card h4 { font-family: 'Fraunces', serif; font-size: 1.2rem; color: #fff; margin-bottom: 10px; }
+  .etio-card p { font-size: 0.9rem; color: rgba(255,255,255,0.6); line-height: 1.7; }
+
+  /* CLINICAL PRESENTATION */
+  .clinical-section { background: var(--cream); }
+  .clinical-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .clinical-text p { color: var(--mid); line-height: 1.8; margin-bottom: 16px; font-size: 0.98rem; }
+  .highlight-box {
+    background: linear-gradient(135deg, var(--navy) 0%, #1a2f5e 100%);
+    border-radius: 20px;
+    padding: 32px;
+    margin-top: 24px;
+  }
+  .highlight-box h4 { font-family: 'Fraunces', serif; color: var(--teal); margin-bottom: 16px; font-size: 1.1rem; }
+  .highlight-box ul { list-style: none; }
+  .highlight-box li {
+    color: rgba(255,255,255,0.75);
+    font-size: 0.88rem;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.6;
+  }
+  .highlight-box li::before { content: '→'; position: absolute; left: 0; color: var(--coral); }
+  .highlight-box li:last-child { border-bottom: none; }
+
+  /* IMAGE GALLERY */
+  .gallery-section { background: #F5EDE3; padding: 100px 80px; }
+  .gallery-section .section-label { color: var(--purple); background: rgba(107,78,255,0.08); }
+  .gallery-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .tab-btn {
+    padding: 10px 22px;
+    border-radius: 100px;
+    border: 1.5px solid rgba(13,27,53,0.2);
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--mid);
+  }
+  .tab-btn.active, .tab-btn:hover {
+    background: var(--navy);
+    color: #fff;
+    border-color: var(--navy);
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .gallery-item {
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    background: #ddd;
+    aspect-ratio: 4/3;
+    transition: transform 0.3s;
+  }
+  .gallery-item:hover { transform: scale(1.02); }
+  .gallery-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: filter 0.3s;
+  }
+  .gallery-item:hover img { filter: brightness(0.85); }
+  .gallery-caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.75));
+    padding: 32px 16px 16px;
+    color: #fff;
+    font-size: 0.78rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .gallery-item:hover .gallery-caption { opacity: 1; }
+
+  /* LIGHTBOX */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 90vw;
+    max-height: 85vh;
+    border-radius: 12px;
+    object-fit: contain;
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 24px; right: 32px;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+    line-height: 1;
+  }
+
+  /* VIDEO SECTION */
+  .video-section {
+    background: linear-gradient(135deg, var(--navy) 0%, #162040 100%);
+    padding: 100px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .video-section::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,197,161,0.12) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .video-section .section-label { color: var(--yellow); background: rgba(255,229,102,0.1); }
+  .video-section .section-title { color: #fff; text-align: center; }
+  .video-section .section-intro { color: rgba(255,255,255,0.55); margin: 0 auto 48px; }
+  .video-wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+    position: relative;
+    z-index: 1;
+    border: 2px solid rgba(255,255,255,0.08);
+    aspect-ratio: 16/9;
+  }
+  .video-wrapper iframe {
+    width: 100%; height: 100%;
+    display: block;
+  }
+
+  /* TREATMENT */
+  .treatment-section { background: var(--cream); }
+  .treatment-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  .treat-card {
+    border-radius: 20px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+  .treat-card:hover { transform: translateY(-4px); }
+  .treat-card.primary { background: var(--navy); color: #fff; }
+  .treat-card.secondary { background: rgba(0,197,161,0.08); border: 1.5px solid rgba(0,197,161,0.25); }
+  .treat-card.tertiary { background: rgba(255,92,69,0.06); border: 1.5px solid rgba(255,92,69,0.2); }
+  .treat-card.quaternary { background: rgba(107,78,255,0.06); border: 1.5px solid rgba(107,78,255,0.2); }
+  .treat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 3rem;
+    font-weight: 900;
+    opacity: 0.12;
+    position: absolute;
+    top: 16px; right: 24px;
+    line-height: 1;
+  }
+  .treat-card h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.2rem;
+    margin-bottom: 14px;
+  }
+  .treat-card.primary h4 { color: var(--teal); }
+  .treat-card.secondary h4 { color: #00A386; }
+  .treat-card.tertiary h4 { color: var(--coral); }
+  .treat-card.quaternary h4 { color: var(--purple); }
+  .treat-card p, .treat-card li {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--mid);
+  }
+  .treat-card.primary p, .treat-card.primary li { color: rgba(255,255,255,0.65); }
+  .treat-card ul { list-style: none; padding: 0; }
+  .treat-card li { padding: 5px 0 5px 18px; position: relative; }
+  .treat-card li::before { content: '•'; position: absolute; left: 0; font-weight: 700; color: inherit; }
+  .treat-card.primary li::before { color: var(--teal); }
+  .treat-card.secondary li::before { color: #00A386; }
+  .treat-card.tertiary li::before { color: var(--coral); }
+  .treat-card.quaternary li::before { color: var(--purple); }
+
+  /* DIFF DIAGNOSIS */
+  .diff-section { background: #F5EDE3; }
+  .diff-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .diff-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 28px;
+    border-top: 4px solid transparent;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .diff-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.12); }
+  .diff-card.c1 { border-top-color: var(--coral); }
+  .diff-card.c2 { border-top-color: var(--teal); }
+  .diff-card.c3 { border-top-color: var(--purple); }
+  .diff-card.c4 { border-top-color: var(--yellow); }
+  .diff-card.c5 { border-top-color: #FF6B9D; }
+  .diff-card.c6 { border-top-color: #FF9B3D; }
+  .diff-card h4 { font-family: 'Fraunces', serif; font-size: 1.1rem; color: var(--navy); margin-bottom: 10px; }
+  .diff-card p { font-size: 0.86rem; color: var(--mid); line-height: 1.65; }
+
+  /* PROGNOSIS */
+  .prognosis-section {
+    background: linear-gradient(135deg, #00C5A1 0%, #00A386 100%);
+    padding: 80px;
+    text-align: center;
+  }
+  .prognosis-section .section-label { color: var(--navy); background: rgba(13,27,53,0.1); }
+  .prognosis-section .section-title { color: var(--navy); text-align: center; }
+  .prog-cards {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 40px;
+  }
+  .prog-card {
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 20px;
+    padding: 32px 40px;
+    flex: 1;
+    min-width: 240px;
+    max-width: 300px;
+  }
+  .prog-card .icon { font-size: 2.5rem; margin-bottom: 12px; }
+  .prog-card h4 { font-family: 'Fraunces', serif; font-size: 1.1rem; color: var(--navy); margin-bottom: 8px; }
+  .prog-card p { font-size: 0.85rem; color: rgba(13,27,53,0.7); line-height: 1.6; }
+
+  /* FOOTER */
+  footer {
+    background: var(--navy);
+    padding: 60px 80px;
+    color: rgba(255,255,255,0.5);
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  footer strong { color: #fff; font-family: 'Fraunces', serif; font-size: 1.1rem; }
+
+  /* ANIMATIONS */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeLeft {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    section, .gallery-section, .video-section, .prognosis-section { padding: 60px 24px; }
+    nav { padding: 0 16px; }
+    .intro-grid, .clinical-layout, .etio-grid, .treatment-grid, .diff-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="badge">Dermatología Pediátrica</div>
+    <h1>Dermatitis<span>del Pañal</span></h1>
+    <p class="hero-desc">Una guía educativa completa sobre la afección cutánea más frecuente en lactantes: etiología, presentación clínica, diagnóstico diferencial y manejo terapéutico.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">50%</span>
+        <span class="stat-label">lactantes afectados</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">25%</span>
+        <span class="stat-label">consultas dermat.</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">9–12</span>
+        <span class="stat-label">meses de mayor incidencia</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-card">
+      <h3>Temas cubiertos en esta guía</h3>
+      <div class="tag-list">
+        <span class="tag tag-coral">Etiología</span>
+        <span class="tag tag-teal">Fisiopatología</span>
+        <span class="tag tag-yellow">Epidemiología</span>
+        <span class="tag tag-coral">Presentación Clínica</span>
+        <span class="tag tag-purple">Diagnóstico Diferencial</span>
+        <span class="tag tag-teal">Tratamiento</span>
+        <span class="tag tag-yellow">Prevención</span>
+        <span class="tag tag-purple">Pronóstico</span>
+        <span class="tag tag-coral">Candidiasis</span>
+        <span class="tag tag-teal">Infección Bacteriana</span>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#intro">Introducción</a>
+    <a href="#etiology">Etiología</a>
+    <a href="#clinical">Clínica</a>
+    <a href="#gallery">Imágenes</a>
+    <a href="#video">Video</a>
+    <a href="#treatment">Tratamiento</a>
+    <a href="#diff">Diagnóstico Diferencial</a>
+    <a href="#prognosis">Pronóstico</a>
+  </div>
+</nav>
+
+<!-- INTRO -->
+<section id="intro" class="intro-section">
+  <div class="reveal">
+    <span class="section-label">Introducción</span>
+    <h2 class="section-title">¿Qué es la dermatitis <em>del pañal?</em></h2>
+  </div>
+  <div class="intro-grid reveal">
+    <div class="intro-text">
+      <p>La dermatitis del pañal es una <strong>reacción inflamatoria de la piel</strong> de las zonas perineal y perianal. Es el trastorno cutáneo más frecuente en lactantes y representa alrededor del 25% de las consultas de atención primaria relacionadas con problemas dermatológicos durante el primer año de vida.</p>
+      <p>Suele ser una afección <strong>leve y autolimitada</strong> que requiere una intervención mínima. Las medidas de manejo incluyen el cuidado de la piel, una higiene adecuada y evitar cualquier sustancia irritante.</p>
+      <p>Generalmente se debe a la irritación de la piel; sin embargo, existen otras causas como la dermatitis atópica y la dermatitis seborreica. Una causa común adicional es la <strong>infección por Candida albicans</strong>, que puede ser primaria o secundaria.</p>
+    </div>
+    <div>
+      <div class="highlight-box">
+        <h4>Factores de riesgo</h4>
+        <ul>
+          <li><strong>Edad:</strong> Piel inmadura con mayor susceptibilidad en neonatos y lactantes</li>
+          <li><strong>Alimentación:</strong> Cambios en la microbiota intestinal y pH de las heces</li>
+          <li><strong>Frecuencia de cambio:</strong> Contacto prolongado con irritantes aumenta el riesgo</li>
+          <li><strong>Humedad:</strong> Factor predisponente más importante por el uso del pañal</li>
+          <li><strong>pH cutáneo:</strong> Alteraciones que favorecen colonización microbiana</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ETIOLOGY -->
+<section id="etiology" class="etio-section" style="max-width:100%; padding:100px 80px;">
+  <div style="max-width:1300px; margin:0 auto;">
+    <div class="reveal">
+      <span class="section-label">Etiología y Fisiopatología</span>
+      <h2 class="section-title">Causas y <em>mecanismos</em></h2>
+      <p class="section-intro" style="color:rgba(255,255,255,0.55);">La dermatitis del pañal es multifactorial. Se produce por la interacción de factores mecánicos, químicos y microbiológicos sobre una piel inmadura y ocluida.</p>
+    </div>
+    <div class="etio-grid reveal">
+      <div class="etio-card">
+        <div class="etio-icon" style="background:rgba(255,92,69,0.15);">💧</div>
+        <h4>Humedad e irritación</h4>
+        <p>El aumento de la humedad bajo el pañal incrementa la fricción y la maceración, haciendo la piel más susceptible al daño y a la penetración de irritantes y microorganismos.</p>
+      </div>
+      <div class="etio-card">
+        <div class="etio-icon" style="background:rgba(0,197,161,0.15);">⚗️</div>
+        <h4>Cambios de pH</h4>
+        <p>La descomposición de la urea urinaria eleva el pH, aumentando la actividad de las enzimas fecales que dañan la piel. Las heces blandas contienen enzimas proteolíticas y lipolíticas.</p>
+      </div>
+      <div class="etio-card">
+        <div class="etio-icon" style="background:rgba(255,229,102,0.15);">🍄</div>
+        <h4>Candida albicans</h4>
+        <p>Segunda causa más común. La candidiasis produce eritema intenso de tinte rojo violáceo en pliegues, con pápulas y pápulo-pústulas satélites. Puede ser primaria o sobreañadida.</p>
+      </div>
+      <div class="etio-card">
+        <div class="etio-icon" style="background:rgba(107,78,255,0.15);">🦠</div>
+        <h4>Infección bacteriana</h4>
+        <p>Staphylococcus aureus y Streptococcus pyogenes son los principales agentes. El S. aureus puede colonizar a través del cordón umbilical en recién nacidos.</p>
+      </div>
+      <div class="etio-card">
+        <div class="etio-icon" style="background:rgba(255,107,157,0.15);">🧴</div>
+        <h4>Dermatitis de contacto</h4>
+        <p>Alergia a componentes de cremas, toallitas o pañales. Las lesiones son eritematosas, con contornos bien definidos, afectando cualquier área cubierta por el pañal.</p>
+      </div>
+      <div class="etio-card">
+        <div class="etio-icon" style="background:rgba(255,155,61,0.15);">🔄</div>
+        <h4>Factores combinados</h4>
+        <p>En la mayoría de los casos, múltiples factores actúan simultáneamente: humedad, contacto prolongado con orina/heces, detergentes y microorganismos oportunistas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLINICAL -->
+<section id="clinical" class="clinical-section">
+  <div class="reveal">
+    <span class="section-label">Presentación Clínica</span>
+    <h2 class="section-title">Signos y <em>síntomas</em></h2>
+  </div>
+  <div class="clinical-layout reveal">
+    <div class="clinical-text">
+      <p>La presentación clínica puede comenzar con un aumento en la frecuencia de las deposiciones o cambios en su apariencia (heces blandas), seguido de la aparición de <strong>eritema alrededor del área del pañal</strong> aproximadamente dos días después.</p>
+      <p>Las lesiones aparecen inicialmente en las <strong>zonas convexas</strong> con contacto más directo con el pañal: genitales externos, nalgas, muslos y periné, respetando característicamente los pliegues.</p>
+      <p>Inicialmente la lesión es un eritema rosado que, si no se controla, se hace cada vez más intenso y confluente, afectando también pliegues con exudación. En las formas más severas aparecen <strong>erosiones y ulceraciones</strong> (forma sifiloide posterosiva).</p>
+      <p>Cuando la dermatitis es grave y crónica, da lugar a lesiones <strong>pseudoverrucosas</strong>. Con frecuencia aparece también un área de eritema lineal en la raíz de los muslos, correspondiente a los elásticos del pañal.</p>
+      <p>Las complicaciones incluyen hipopigmentación, cicatrices atróficas y el <strong>granuloma glúteo infantil</strong> (asociado al uso de corticoides tópicos de alta potencia), caracterizado por lesiones pápulo-nodulares violáceas de hasta 2–3 cm.</p>
+    </div>
+    <div>
+      <div class="highlight-box" style="margin-bottom:24px;">
+        <h4>Localización típica de lesiones</h4>
+        <ul>
+          <li>Zonas convexas: genitales, nalgas, muslos</li>
+          <li>Periné y región perianal</li>
+          <li>Respeta los pliegues (en fase inicial)</li>
+          <li>Elásticos del pañal (eritema lineal)</li>
+          <li>Pliegues afectados en formas severas</li>
+        </ul>
+      </div>
+      <div class="highlight-box">
+        <h4>Candidiasis del pañal: características</h4>
+        <ul>
+          <li>Eritema intenso de tinte rojo violáceo</li>
+          <li>Localización inicial en pliegues</li>
+          <li>Pápulas y pápulo-pústulas satélites</li>
+          <li>Aspecto brillante y bien delimitado</li>
+          <li>No mejora con medidas habituales</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<div class="gallery-section" id="gallery">
+  <div style="max-width:1300px; margin:0 auto;">
+    <div class="reveal">
+      <span class="section-label">Galería Clínica</span>
+      <h2 class="section-title" style="color:var(--navy);">Imágenes <em>de referencia</em></h2>
+      <p class="section-intro">Fotografías clínicas que ilustran los diferentes tipos, grados de severidad y formas de presentación de la dermatitis del pañal.</p>
+    </div>
+    <div class="gallery-grid reveal">
+      <div class="gallery-item" onclick="openLightbox('Fig_1.png')">
+        <img src="Fig_1.png" alt="Dermatitis severa en nalgas">
+        <div class="gallery-caption">Fig. 1 — Eritema intenso y confluente en nalgas con afectación de pliegues</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('Fig_2.png')">
+        <img src="Fig_2.png" alt="Exudación en pliegues">
+        <div class="gallery-caption">Fig. 2 — Exudación en pliegues inguinales, forma severa</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('Fig_3.png')">
+        <img src="Fig_3.png" alt="Eritema intenso perianal">
+        <div class="gallery-caption">Fig. 3 — Eritema confluente con exudación perianal</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('Fig_4.png')">
+        <img src="Fig_4.png" alt="Forma sifiloide posterosiva">
+        <div class="gallery-caption">Fig. 4 — Forma sifiloide posterosiva (erosiones y ulceraciones)</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('Fig_5.jpg')">
+        <img src="Fig_5.jpg" alt="Lesiones pseudoverrucosas">
+        <div class="gallery-caption">Fig. 5 — Dermatitis crónica severa con lesiones pseudoverrucosas</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('Fig_6.png')">
+        <img src="Fig_6.png" alt="Candidiasis del pañal">
+        <div class="gallery-caption">Fig. 6 — Candidiasis del pañal: eritema violáceo con pústulas satélites</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('Fig_7.png')">
+        <img src="Fig_7.png" alt="Impétigo estafilocócico">
+        <div class="gallery-caption">Fig. 7 — Impétigo estafilocócico/estreptocócico con costras amarillentas</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('Fig_8.png')">
+        <img src="Fig_8.png" alt="Foliculitis estafilocócica">
+        <div class="gallery-caption">Fig. 8 — Foliculitis estafilocócica: pápulas y pápulo-pústulas</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('Fig_9.png')">
+        <img src="Fig_9.png" alt="Granuloma glúteo infantil">
+        <div class="gallery-caption">Fig. 9 — Granuloma glúteo infantil (asociado a corticoides tópicos)</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('Fig_10.png')">
+        <img src="Fig_10.png" alt="Dermatitis de contacto alérgica">
+        <div class="gallery-caption">Fig. 10 — Dermatitis alérgica de contacto con contornos bien definidos</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('Fig_11.png')">
+        <img src="Fig_11.png" alt="Dermatitis seborreica">
+        <div class="gallery-caption">Fig. 11 — Dermatitis seborreica generalizada en lactante</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('Fig_12.png')">
+        <img src="Fig_12.png" alt="Psoriasis del pañal">
+        <div class="gallery-caption">Fig. 12 — Psoriasis: placas simétricas bien definidas sin descamación</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('Fig_13.png')">
+        <img src="Fig_13.png" alt="Presentación genital">
+        <div class="gallery-caption">Fig. 13 — Afectación genital con eritema difuso</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('Fig_14.png')">
+        <img src="Fig_14.png" alt="Lesión perianal">
+        <div class="gallery-caption">Fig. 14 — Lesión granulomatosa perianal en lactante</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('Fig_15.png')">
+        <img src="Fig_15.png" alt="Infección bacteriana severa">
+        <div class="gallery-caption">Fig. 15 — Infección bacteriana con pústulas confluentes</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('Fig_16.png')">
+        <img src="Fig_16.png" alt="Eritema interglúteo">
+        <div class="gallery-caption">Fig. 16 — Eritema lineal interglúteo</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('Fig_17.jpg')">
+        <img src="Fig_17.jpg" alt="Lesión plantar">
+        <div class="gallery-caption">Fig. 17 — Lesión asociada en planta del pie</div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox('Fig_18.png')">
+        <img src="Fig_18.png" alt="Impétigo con exudado">
+        <div class="gallery-caption">Fig. 18 — Impétigo con exudado amarillento purulento</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<!-- VIDEO -->
+<div class="video-section" id="video">
+  <div style="max-width:1300px; margin:0 auto; position:relative; z-index:1;">
+    <span class="section-label">Recurso Audiovisual</span>
+    <h2 class="section-title">Video <em>educativo</em></h2>
+    <p class="section-intro">Complementa tu aprendizaje con este recurso audiovisual sobre dermatitis del pañal, su manejo y recomendaciones para padres y cuidadores.</p>
+    <div class="video-wrapper reveal">
+      <iframe
+        src="https://www.youtube.com/embed/MWTo4C6i6_Q"
+        title="Dermatitis del Pañal - Video Educativo"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+</div>
+
+<!-- TREATMENT -->
+<section id="treatment" class="treatment-section">
+  <div class="reveal">
+    <span class="section-label">Tratamiento</span>
+    <h2 class="section-title">Manejo y <em>terapéutica</em></h2>
+    <p class="section-intro">El tratamiento combina medidas preventivas con intervenciones específicas según el tipo y gravedad de la dermatitis.</p>
+  </div>
+  <div class="treatment-grid reveal">
+    <div class="treat-card primary">
+      <div class="treat-num">01</div>
+      <h4>Medidas preventivas y generales</h4>
+      <ul>
+        <li>Airear la zona 5–10 min en cada cambio de pañal</li>
+        <li>Cambiar el pañal frecuentemente (c/hora en neonatos, c/3–4h en demás)</li>
+        <li>Limpiar con agua tibia y esponja suave</li>
+        <li>Secar cuidadosamente sin frotar</li>
+        <li>Usar pañales ultra absorbentes y transpirables</li>
+        <li>Toallitas sin alcohol, jabón, aceites esenciales ni fragrancias</li>
+      </ul>
+    </div>
+    <div class="treat-card secondary">
+      <div class="treat-num">02</div>
+      <h4>Emolientes y barrera</h4>
+      <ul>
+        <li>Óxido de zinc (primera línea)</li>
+        <li>Vaselina o petrolatum</li>
+        <li>Aceite de hígado de bacalao</li>
+        <li>Lanolina</li>
+        <li>Crean barrera protectora contra orina y heces</li>
+        <li>Mejoran función de barrera cutánea</li>
+      </ul>
+    </div>
+    <div class="treat-card tertiary">
+      <div class="treat-num">03</div>
+      <h4>Corticoides tópicos</h4>
+      <ul>
+        <li>Para casos que no mejoran en 2–3 días</li>
+        <li>Casos moderados a graves</li>
+        <li>Hidrocortisona 0,5% 2 veces al día × 1 semana</li>
+        <li>Baja potencia solamente en zona del pañal</li>
+        <li>Nunca corticoides de alta potencia (riesgo de granuloma)</li>
+        <li>Uso por tiempo limitado</li>
+      </ul>
+    </div>
+    <div class="treat-card quaternary">
+      <div class="treat-num">04</div>
+      <h4>Antifúngicos y antibióticos</h4>
+      <ul>
+        <li>Candida: nistatina inicialmente (cada cambio de pañal)</li>
+        <li>Sin mejoría en 1–3 días → cambiar a azoles</li>
+        <li>Clotrimazol, miconazol o ketoconazol 2×/día × 7–10 días</li>
+        <li>Infección bacteriana leve: antibióticos tópicos</li>
+        <li>Dermatitis estreptocócica perianal: antibióticos orales</li>
+        <li>Confirmar agente etiológico cuando sea posible</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- DIFFERENTIAL DIAGNOSIS -->
+<div class="diff-section" id="diff" style="padding:100px 80px;">
+  <div style="max-width:1300px; margin:0 auto;">
+    <div class="reveal">
+      <span class="section-label">Diagnóstico Diferencial</span>
+      <h2 class="section-title" style="color:var(--navy);">Condiciones que <em>simular</em></h2>
+      <p class="section-intro">Es esencial distinguir la dermatitis del pañal irritativa de otras condiciones que pueden manifestarse en la misma región anatómica.</p>
+    </div>
+    <div class="diff-grid reveal">
+      <div class="diff-card c1">
+        <h4>Dermatitis alérgica de contacto</h4>
+        <p>Causa más frecuente: alergia a cremas, toallitas o goma del pañal. Eritema con contornos bien definidos. Confirmar con pruebas alérgicas. Reducir productos y usar corticoide de baja potencia.</p>
+      </div>
+      <div class="diff-card c2">
+        <h4>Dermatitis seborreica</h4>
+        <p>Placas eritematosas bien delimitadas en ingles, sin componente descamativo. En días aparecen lesiones en cuero cabelludo, detrás de orejas. Autoresolutiva en 3–6 meses. Corticoides de muy baja potencia + jabones antifúngicos.</p>
+      </div>
+      <div class="diff-card c3">
+        <h4>Psoriasis del pañal</h4>
+        <p>Placas simétricas muy bien definidas, eritematosas, sin la descamación habitual. Historia familiar de psoriasis. Falta de respuesta a corticoides de baja potencia. Tratamiento: corticoides potencia media-alta o inhibidores de calcineurina.</p>
+      </div>
+      <div class="diff-card c4">
+        <h4>Candidiasis sobreañadida</h4>
+        <p>Eritema rojo violáceo en pliegues con pústulas satélites. No responde a medidas habituales. Confirmar con KOH si es posible. Tratar con antifúngicos tópicos específicos.</p>
+      </div>
+      <div class="diff-card c5">
+        <h4>Impétigo bacteriano</h4>
+        <p>Lesiones erosivas en zonas convexas cubiertas por costras amarillentas y ampollas sobre piel eritematosa. Etiología: S. aureus o S. pyogenes. Requiere antibióticos tópicos o sistémicos.</p>
+      </div>
+      <div class="diff-card c6">
+        <h4>Granuloma glúteo infantil</h4>
+        <p>Complicación por uso de corticoides tópicos de alta potencia. Lesiones pápulo-nodulares violáceas de 2–3 cm en superficies convexas. Resolución lenta tras suspensión del corticoide, a veces con cicatriz.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROGNOSIS -->
+<div class="prognosis-section" id="prognosis">
+  <div style="max-width:1000px; margin:0 auto;">
+    <span class="section-label">Pronóstico</span>
+    <h2 class="section-title">Excelente <em>con tratamiento oportuno</em></h2>
+    <div class="prog-cards reveal">
+      <div class="prog-card">
+        <div class="icon">✅</div>
+        <h4>Pronóstico favorable</h4>
+        <p>Con diagnóstico adecuado y tratamiento oportuno, la dermatitis del pañal tiene un excelente pronóstico. Es generalmente leve y autolimitada.</p>
+      </div>
+      <div class="prog-card">
+        <div class="icon">👨‍⚕️</div>
+        <h4>Manejo ambulatorio</h4>
+        <p>Puede ser tratada con seguridad por médico general. Solo en enfermedad extensa sin respuesta al tratamiento se requiere consulta dermatológica.</p>
+      </div>
+      <div class="prog-card">
+        <div class="icon">📚</div>
+        <h4>Educación preventiva</h4>
+        <p>La orientación a padres sobre higiene, cambio frecuente y uso de emolientes debe ser parte de cada visita de control de salud del niño.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <strong>Dermatitis del Pañal</strong>
+    <p style="margin-top:6px;">Guía educativa — Dermatología Pediátrica</p>
+  </div>
+  <p>Material educativo de referencia clínica</p>
+</footer>
+
+<script>
+  // Lightbox
+  function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
